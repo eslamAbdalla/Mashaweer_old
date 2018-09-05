@@ -1,0 +1,122 @@
+package com.example.eslam.mashaweer;
+
+import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class LogIN extends AppCompatActivity {
+
+    EditText ET_UserName,ET_Password ;
+    Button Bt_LogIn ;
+
+//      String Entered_User_Name;
+//      String Entered_Password;
+
+    public static String firstName ,lastName;
+
+//    String Url_Login ;
+
+    int LogInStatus ;
+
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_log_in);
+
+
+        ET_UserName = (EditText)findViewById(R.id.logInName);
+        ET_Password = (EditText)findViewById(R.id.logInPassword);
+
+        Bt_LogIn = (Button)findViewById(R.id.btn_Log_In);
+
+
+        Bt_LogIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                String     Entered_User_Name = ET_UserName.getText().toString();
+                String Entered_Password = ET_Password.getText().toString();
+
+                String      Url_Login = "http://Mashaweer.somee.com/api/Login/"+Entered_User_Name+"?password="+Entered_Password+"";
+
+                if (Entered_User_Name.isEmpty()&& Entered_Password.isEmpty()){
+                    Toast.makeText(LogIN.this,"Please Enter User Name & Password",Toast.LENGTH_LONG).show();
+                    LogInStatus = 0;
+
+
+                }
+
+
+
+                JsonObjectRequest LogInDataRequest = new JsonObjectRequest(Request.Method.GET, Url_Login
+                        , null, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                        try {
+                            LogInStatus = response.getInt("state");
+
+                            JSONObject result = response.getJSONObject("result");
+                            firstName = result.getString("firstName");
+                            lastName = result.getString("lastName");
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+                        // 1 = not Found ================== 2 = done
+
+                        if (LogInStatus == 2) {
+                            Toast.makeText(LogIN.this, "Welcom" + " " + firstName + " " + lastName, Toast.LENGTH_LONG).show();
+                            startActivity(new Intent(LogIN.this, MapsActivity.class));
+                            LogInStatus = 0;
+                        } else if (LogInStatus == 1) {
+                            Toast.makeText(LogIN.this, "Please Enter Valid User Name & Password", Toast.LENGTH_LONG).show();
+                            LogInStatus = 0;
+                        }
+
+
+                    }
+
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                });
+
+                LogInDataRequest.setRetryPolicy(new DefaultRetryPolicy(
+                        500,
+                        DefaultRetryPolicy.DEFAULT_TIMEOUT_MS,
+                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+
+                MySingleton.getInstance(LogIN.this).addToRequestQueue(LogInDataRequest);
+
+
+
+
+
+            }
+        });
+
+    }
+}
