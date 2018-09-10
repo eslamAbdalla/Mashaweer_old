@@ -2,6 +2,7 @@ package com.example.eslam.mashaweer;
 
 import android.annotation.SuppressLint;
 import android.app.DownloadManager;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.ColorSpace;
 import android.support.v7.app.AppCompatActivity;
@@ -122,12 +123,18 @@ public class Sign_UP_Activity extends AppCompatActivity {
                         public void onResponse(JSONObject response) {
                             Toast.makeText(Sign_UP_Activity.this, "Done", Toast.LENGTH_LONG).show();
 
+
+                            startActivity(new Intent(Sign_UP_Activity.this,Profile.class));
                         }
                     }, new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
 
                         }
+
+
+
+
                     });
 
                     MySingleton.getInstance(Sign_UP_Activity.this).addToRequestQueue(AddNewUserRequest);

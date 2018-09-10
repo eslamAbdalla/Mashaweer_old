@@ -94,7 +94,7 @@ public class LogIN extends AppCompatActivity {
 
                         if (LogInStatus == 2) {
                             Toast.makeText(LogIN.this, "Welcom" + " " + firstName + " " + lastName, Toast.LENGTH_LONG).show();
-                            startActivity(new Intent(LogIN.this, Profile_Activity.class));
+                            startActivity(new Intent(LogIN.this, Profile.class));
                             LogInStatus = 0;
                         } else if (LogInStatus == 1) {
                             Toast.makeText(LogIN.this, "Please Enter Valid User Name & Password", Toast.LENGTH_LONG).show();
