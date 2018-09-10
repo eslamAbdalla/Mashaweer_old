@@ -40,7 +40,7 @@
 
         <activity
             android:name=".MapsActivity"
-            android:label="@string/title_activity_maps"></activity>
+            android:label="@string/title_activity_maps" />
 
         <service android:name=".MyFirebaseInstanceIdService">
             <intent-filter>
@@ -60,10 +60,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".Profile_Activity"
-            android:label="@string/title_activity_profile_"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".Sign_UP_Activity"
+           >
+        </activity>
     </application>
 
 </manifest>

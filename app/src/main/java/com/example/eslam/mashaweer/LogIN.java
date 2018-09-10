@@ -20,7 +20,7 @@ import org.json.JSONObject;
 public class LogIN extends AppCompatActivity {
 
     EditText ET_UserName,ET_Password ;
-    Button Bt_LogIn ;
+    Button Bt_LogIn,Bt_Sign_Up ;
 
 //      String Entered_User_Name;
 //      String Entered_Password;
@@ -43,6 +43,14 @@ public class LogIN extends AppCompatActivity {
         ET_Password = (EditText)findViewById(R.id.logInPassword);
 
         Bt_LogIn = (Button)findViewById(R.id.btn_Log_In);
+        Bt_Sign_Up = (Button)findViewById(R.id.btn_Sign_Up);
+
+        Bt_Sign_Up.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LogIN.this,Sign_UP_Activity.class));
+            }
+        });
 
 
         Bt_LogIn.setOnClickListener(new View.OnClickListener() {
@@ -86,7 +94,7 @@ public class LogIN extends AppCompatActivity {
 
                         if (LogInStatus == 2) {
                             Toast.makeText(LogIN.this, "Welcom" + " " + firstName + " " + lastName, Toast.LENGTH_LONG).show();
-                            startActivity(new Intent(LogIN.this, MapsActivity.class));
+                            startActivity(new Intent(LogIN.this, Profile_Activity.class));
                             LogInStatus = 0;
                         } else if (LogInStatus == 1) {
                             Toast.makeText(LogIN.this, "Please Enter Valid User Name & Password", Toast.LENGTH_LONG).show();
