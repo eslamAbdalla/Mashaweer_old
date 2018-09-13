@@ -130,6 +130,10 @@ public class Sign_UP_Activity extends AppCompatActivity {
                         @Override
                         public void onErrorResponse(VolleyError error) {
 
+                            error.printStackTrace();
+                            error.getMessage();
+
+
                         }
 
 
