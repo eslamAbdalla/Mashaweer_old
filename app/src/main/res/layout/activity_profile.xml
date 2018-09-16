@@ -50,10 +50,11 @@
                     />
 
                 <TextView
+                    android:id="@+id/displayname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_large"
-                    android:text="Damian Johnson"
+                    android:text=""
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
                     android:textColor="@android:color/white" />
 

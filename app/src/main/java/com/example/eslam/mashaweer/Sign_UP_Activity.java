@@ -43,7 +43,6 @@ public class Sign_UP_Activity extends AppCompatActivity {
     int User_Type = 2 ;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,31 +91,40 @@ public class Sign_UP_Activity extends AppCompatActivity {
                 progressBar.setVisibility(View.VISIBLE);
 
 
-                String Entered_FirstName;
-                String Entered_LastName;
-                String Entered_LogInName;
-                final String Entered_Password;
-                final String Entered_RePassword;
-                int Entered_UserType;
+              //  String Entered_FirstName;
+                //String Entered_LastName;
+              //  final String Entered_LogInName;
+              //  final String Entered_Password;
+              //  final String Entered_RePassword;
+              //  int Entered_UserType;
 
 
-                Entered_FirstName = First_Name.getText().toString();
-                Entered_LastName = Last_Name.getText().toString();
-                Entered_LogInName = LogInName.getText().toString();
-                Entered_Password = Password.getText().toString();
-                Entered_RePassword = RePassword.getText().toString();
-                Entered_UserType = User_Type;
+                Profile.Entered_FirstName = First_Name.getText().toString();
+                Profile.Entered_LastName = Last_Name.getText().toString();
+                Profile.Entered_LogInName = LogInName.getText().toString();
+                Profile.Entered_Password = Password.getText().toString();
+                Profile.Entered_RePassword = RePassword.getText().toString();
+                Profile.Entered_UserType = User_Type;
+
+
+                if (Profile.Entered_LogInName.contains(" ")){
+                    LogInName.setText("");
+                    LogInName.setHint("User Name Contain Spaces");
+                    LogInName.setHintTextColor(Color.parseColor("#FF890222"));
+                    progressBar.setVisibility(View.GONE);
+                }
+                else {
 
                 try {
-                    User_Data.put("First_Name", Entered_FirstName);
-                    User_Data.put("Last_Name", Entered_LastName);
-                    User_Data.put("LogIN_Name", Entered_LogInName);
-                    User_Data.put("Password", Entered_Password);
-                    User_Data.put("UserTypeKey", Entered_UserType);
+                    User_Data.put("First_Name", Profile.Entered_FirstName);
+                    User_Data.put("Last_Name", Profile.Entered_LastName);
+                    User_Data.put("LogIN_Name", Profile.Entered_LogInName);
+                    User_Data.put("Password", Profile.Entered_Password);
+                    User_Data.put("UserTypeKey", Profile.Entered_UserType);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-    String CheckUserName_URL ="http://Mashaweer.somee.com/api/CheckLogInName/?userName="+Entered_LogInName+"" ;
+    String CheckUserName_URL ="http://Mashaweer.somee.com/api/CheckLogInName/?userName="+Profile.Entered_LogInName+"" ;
 
 
 
@@ -141,7 +149,7 @@ public class Sign_UP_Activity extends AppCompatActivity {
                         } else if (State == 1) {
 
 
-                            if (!Entered_Password.equals(Entered_RePassword)) {
+                            if (!Profile.Entered_Password.equals(Profile.Entered_RePassword)) {
                                 RePassword.setText("");
                                 RePassword.setHint("Password Not Match");
                                 RePassword.setHintTextColor(Color.parseColor("#FF890222"));
@@ -183,7 +191,7 @@ public class Sign_UP_Activity extends AppCompatActivity {
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        progressBar.setVisibility(View.GONE);
                         error.printStackTrace();
                         error.getMessage();
                         Toast.makeText(Sign_UP_Activity.this, "Connection Error", Toast.LENGTH_LONG).show();
@@ -192,14 +200,12 @@ public class Sign_UP_Activity extends AppCompatActivity {
                     }
 
 
-
-
-                });
+                 });
                 MySingleton.getInstance(Sign_UP_Activity.this).addToRequestQueue(CheckUserName);
 
 
 
-            }
+            }}
         });
 
 
