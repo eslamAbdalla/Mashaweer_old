@@ -1,16 +1,9 @@
 package com.example.eslam.mashaweer;
 
-import android.annotation.SuppressLint;
-import android.app.DownloadManager;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.ColorSpace;
-import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,8 +20,6 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Method;
-
 public class Sign_UP_Activity extends AppCompatActivity {
 
 
@@ -41,6 +32,7 @@ public class Sign_UP_Activity extends AppCompatActivity {
 
 
     int User_Type = 2 ;
+    public static int Entered_UserType ;
 
 
     @Override
@@ -96,18 +88,18 @@ public class Sign_UP_Activity extends AppCompatActivity {
               //  final String Entered_LogInName;
               //  final String Entered_Password;
               //  final String Entered_RePassword;
-              //  int Entered_UserType;
+             //   Entered_UserType;
 
 
-                Profile.Entered_FirstName = First_Name.getText().toString();
-                Profile.Entered_LastName = Last_Name.getText().toString();
-                Profile.Entered_LogInName = LogInName.getText().toString();
-                Profile.Entered_Password = Password.getText().toString();
-                Profile.Entered_RePassword = RePassword.getText().toString();
-                Profile.Entered_UserType = User_Type;
+                Profile_Owner.Entered_FirstName = First_Name.getText().toString();
+                Profile_Owner.Entered_LastName = Last_Name.getText().toString();
+                Profile_Owner.Entered_LogInName = LogInName.getText().toString();
+                Profile_Owner.Entered_Password = Password.getText().toString();
+                Profile_Owner.Entered_RePassword = RePassword.getText().toString();
+                Entered_UserType = User_Type;
 
 
-                if (Profile.Entered_LogInName.contains(" ")){
+                if (Profile_Owner.Entered_LogInName.contains(" ")){
                     LogInName.setText("");
                     LogInName.setHint("User Name Contain Spaces");
                     LogInName.setHintTextColor(Color.parseColor("#FF890222"));
@@ -116,15 +108,15 @@ public class Sign_UP_Activity extends AppCompatActivity {
                 else {
 
                 try {
-                    User_Data.put("First_Name", Profile.Entered_FirstName);
-                    User_Data.put("Last_Name", Profile.Entered_LastName);
-                    User_Data.put("LogIN_Name", Profile.Entered_LogInName);
-                    User_Data.put("Password", Profile.Entered_Password);
-                    User_Data.put("UserTypeKey", Profile.Entered_UserType);
+                    User_Data.put("First_Name", Profile_Owner.Entered_FirstName);
+                    User_Data.put("Last_Name", Profile_Owner.Entered_LastName);
+                    User_Data.put("LogIN_Name", Profile_Owner.Entered_LogInName);
+                    User_Data.put("Password", Profile_Owner.Entered_Password);
+                    User_Data.put("UserTypeKey", Entered_UserType);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-    String CheckUserName_URL ="http://Mashaweer.somee.com/api/CheckLogInName/?userName="+Profile.Entered_LogInName+"" ;
+    String CheckUserName_URL ="http://Mashaweer.somee.com/api/CheckLogInName/?userName="+ Profile_Owner.Entered_LogInName+"" ;
 
 
 
@@ -149,7 +141,7 @@ public class Sign_UP_Activity extends AppCompatActivity {
                         } else if (State == 1) {
 
 
-                            if (!Profile.Entered_Password.equals(Profile.Entered_RePassword)) {
+                            if (!Profile_Owner.Entered_Password.equals(Profile_Owner.Entered_RePassword)) {
                                 RePassword.setText("");
                                 RePassword.setHint("Password Not Match");
                                 RePassword.setHintTextColor(Color.parseColor("#FF890222"));
@@ -162,10 +154,15 @@ public class Sign_UP_Activity extends AppCompatActivity {
                                         , new Response.Listener<JSONObject>() {
                                     @Override
                                     public void onResponse(JSONObject response) {
-                                        Toast.makeText(Sign_UP_Activity.this, "Done", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(Sign_UP_Activity.this, "Sign Up Successfuly", Toast.LENGTH_LONG).show();
                                         progressBar.setVisibility(View.GONE);
 
-                                        startActivity(new Intent(Sign_UP_Activity.this, Profile.class));
+                                        if (User_Type == 1) {
+                                            startActivity(new Intent(Sign_UP_Activity.this, Profile_Owner.class));
+                                        }
+                                        else if (User_Type == 2) {
+                                            startActivity(new Intent(Sign_UP_Activity.this, Profile_Renter.class));
+                                        }
                                     }
                                 }, new Response.ErrorListener() {
                                     @Override

@@ -25,7 +25,9 @@ public class LogIN extends AppCompatActivity {
 //      String Entered_User_Name;
 //      String Entered_Password;
 
-    public static String firstName ,lastName;
+    public static String firstName ,lastName,UserKey,User_Type;
+
+    public  static int User_Type_Key;
 
 //    String Url_Login ;
 
@@ -81,8 +83,12 @@ public class LogIN extends AppCompatActivity {
                             LogInStatus = response.getInt("state");
 
                             JSONObject result = response.getJSONObject("result");
+                            UserKey = result.getString("userId");
                             firstName = result.getString("firstName");
                             lastName = result.getString("lastName");
+                            User_Type = result.getString("userType");
+                            User_Type_Key = result.getInt("userTypeKey");
+
 
 
                         } catch (JSONException e) {
@@ -92,11 +98,18 @@ public class LogIN extends AppCompatActivity {
 
                         // 1 = not Found ================== 2 = done
 
-                        if (LogInStatus == 2) {
+                        if (LogInStatus == 2 ) {
                             Toast.makeText(LogIN.this, "Welcom" + " " + firstName + " " + lastName, Toast.LENGTH_LONG).show();
-                            startActivity(new Intent(LogIN.this, Profile.class));
-                            Profile.Entered_FirstName = firstName;
-                            Profile.Entered_LastName = lastName;
+
+                            if (User_Type_Key == 1) {
+                                startActivity(new Intent(LogIN.this, Profile_Owner.class));
+                                Profile_Owner.Entered_FirstName = firstName;
+                                Profile_Owner.Entered_LastName = lastName;
+                            }else if (User_Type_Key == 2) {
+                                startActivity(new Intent(LogIN.this, Profile_Renter.class));
+                                Profile_Renter.Entered_FirstName = firstName;
+                                Profile_Renter.Entered_LastName = lastName;
+                            }
                             LogInStatus = 0;
                         } else if (LogInStatus == 1) {
                             Toast.makeText(LogIN.this, "Please Enter Valid User Name & Password", Toast.LENGTH_LONG).show();
